@@ -17,6 +17,11 @@ namespace GitSelfie
             commitMessage = args[0];
             commitHash = args[1];
 
+            if (commitHash.Length > 20)
+            {
+                commitHash = commitHash.Substring(0, 20);
+            }
+
             var webcamColl = new FilterInfoCollection(FilterCategory.VideoInputDevice);
             camera = new VideoCaptureDevice(webcamColl[0].MonikerString);
             camera.NewFrame += Device_NewFrame;
