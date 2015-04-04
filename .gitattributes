@@ -1,0 +1,29 @@
+# Auto detect text files and perform LF normalization
+* text=auto
+
+# Custom for Visual Studio
+*.cs diff=csharp
+*.csproj text merge=union
+*.sln text merge=union
+
+# Standard to msysgit
+*.js text
+*.css text
+*.less text	
+*.sql text
+*.doc diff=astextplain
+*.DOC diff=astextplain
+*.docx diff=astextplain
+*.DOCX diff=astextplain
+*.dot diff=astextplain
+*.DOT diff=astextplain
+*.pdf diff=astextplain
+*.PDF diff=astextplain
+*.rtf diff=astextplain
+*.RTF diff=astextplain
+
+# absolute paths are ok, as are globs
+/**/postinst* text eol=lf
+
+# paths that don't start with / are treated relative to the .gitattributes folder
+relative/path/*.txt text eol=lf
