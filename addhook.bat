@@ -1,0 +1,1 @@
+git config --global alias.selfie "!xcopy '%ChocolateyInstall%\lib\git-selfie\tools\post-commit' '.git\hooks'"
