@@ -22,6 +22,19 @@ namespace GitSelfie
         static void Device_NewFrame(object sender, NewFrameEventArgs e)
         {
             Bitmap bmp = (Bitmap)e.Frame.Clone();
+            DrawMessage(bmp, "DEV-9632 ФСС тест на соответствие xml xsd схеме");
+            DrawCommitHash(bmp, "43b342dd04539329871");
+
+            bmp.Save("C:\\Foo\\"+Guid.NewGuid()+"_bar.png");
+            Console.WriteLine("Snapshot Saved.");
+         
+            Console.WriteLine("Stopping ...");
+            camera.SignalToStop();
+            Console.WriteLine("Stopped .");
+        }
+
+        private static void DrawMessage(Bitmap bmp, string message)
+        {
             Graphics g = Graphics.FromImage(bmp);
 
             //this will center align our text at the bottom of the image
@@ -29,10 +42,10 @@ namespace GitSelfie
             sf.Alignment = StringAlignment.Near;
             sf.LineAlignment = StringAlignment.Far;
 
-            int fontSize = 32;
+            int fontSize = 36;
 
             //define a font to use.
-            Font f = new Font("Trebuchet MS", fontSize, FontStyle.Regular, GraphicsUnit.Pixel);
+            Font f = new Font("Impact", fontSize, FontStyle.Bold, GraphicsUnit.Pixel);
 
             //pen for outline - set width parameter
             Pen p = new Pen(ColorTranslator.FromHtml("#77090C"), 4);
@@ -40,10 +53,12 @@ namespace GitSelfie
 
             //this makes the gradient repeat for each text line
             Rectangle fr = new Rectangle(0, bmp.Height - f.Height, bmp.Width, f.Height);
-            LinearGradientBrush b = new LinearGradientBrush(fr,
-                                                            ColorTranslator.FromHtml("#FF6493"),
-                                                            ColorTranslator.FromHtml("#D00F14"),
-                                                            90);
+//            LinearGradientBrush b = new LinearGradientBrush(fr,
+//                                                            ColorTranslator.FromHtml("#FF6493"),
+//                                                            ColorTranslator.FromHtml("#D00F14"),
+//                                                            90);
+
+            var b = new SolidBrush(Color.Snow);
 
             //this will be the rectangle used to draw and auto-wrap the text.
             //basically = image size
@@ -52,8 +67,8 @@ namespace GitSelfie
             GraphicsPath gp = new GraphicsPath();
 
             //look mom! no pre-wrapping!
-            gp.AddString("DEV-4723 Биллинг сломан к херам",
-                         f.FontFamily, (int)f.Style, fontSize, r, sf);
+            gp.AddString(message,
+                f.FontFamily, (int) f.Style, fontSize, r, sf);
 
             //these affect lines such as those in paths. Textrenderhint doesn't affect
             //text in a path as it is converted to ..well, a path.    
@@ -71,13 +86,62 @@ namespace GitSelfie
             f.Dispose();
             sf.Dispose();
             g.Dispose();
+        }
 
-            bmp.Save("C:\\Foo\\"+Guid.NewGuid()+"_bar.png");
-            Console.WriteLine("Snapshot Saved.");
-         
-            Console.WriteLine("Stopping ...");
-            camera.SignalToStop();
-            Console.WriteLine("Stopped .");
+
+        private static void DrawCommitHash(Bitmap bmp, string message)
+        {
+            Graphics g = Graphics.FromImage(bmp);
+
+            //this will center align our text at the bottom of the image
+            StringFormat sf = new StringFormat();
+            sf.Alignment = StringAlignment.Far;
+            sf.LineAlignment = StringAlignment.Near;
+            
+            int fontSize = 20;
+
+            //define a font to use.
+            Font f = new Font("Trebuchet MS", fontSize, FontStyle.Bold, GraphicsUnit.Pixel);
+
+            //pen for outline - set width parameter
+            Pen p = new Pen(ColorTranslator.FromHtml("#77090C"), 4);
+            p.LineJoin = LineJoin.Round; //prevent "spikes" at the path
+
+            //this makes the gradient repeat for each text line
+            Rectangle fr = new Rectangle(0, bmp.Height - f.Height, bmp.Width, f.Height);
+            //            LinearGradientBrush b = new LinearGradientBrush(fr,
+            //                                                            ColorTranslator.FromHtml("#FF6493"),
+            //                                                            ColorTranslator.FromHtml("#D00F14"),
+            //                                                            90);
+
+            var b = new SolidBrush(Color.Gainsboro);
+
+            //this will be the rectangle used to draw and auto-wrap the text.
+            //basically = image size
+            Rectangle r = new Rectangle(0, 10, bmp.Width, bmp.Height);
+            
+            GraphicsPath gp = new GraphicsPath();
+
+            //look mom! no pre-wrapping!
+            gp.AddString(message,
+                f.FontFamily, (int)f.Style, fontSize, r, sf);
+
+            //these affect lines such as those in paths. Textrenderhint doesn't affect
+            //text in a path as it is converted to ..well, a path.    
+            g.SmoothingMode = SmoothingMode.AntiAlias;
+            g.PixelOffsetMode = PixelOffsetMode.HighQuality;
+
+            //TODO: shadow -> g.translate, fillpath once, remove translate
+            g.DrawPath(p, gp);
+            g.FillPath(b, gp);
+
+            //cleanup
+            gp.Dispose();
+            b.Dispose();
+            b.Dispose();
+            f.Dispose();
+            sf.Dispose();
+            g.Dispose();
         }
     }
 }
