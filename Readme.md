@@ -1,2 +1,2 @@
 GitSelfie
-Take a foto during your commit :)
+Take a selfie during your commit :)
