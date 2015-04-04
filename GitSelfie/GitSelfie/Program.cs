@@ -16,7 +16,6 @@ namespace GitSelfie
             camera = new VideoCaptureDevice(webcamColl[0].MonikerString);
             camera.NewFrame += Device_NewFrame;
             camera.Start();
-            Console.ReadLine();
         }
 
         static void Device_NewFrame(object sender, NewFrameEventArgs e)
