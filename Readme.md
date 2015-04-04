@@ -1,3 +1,3 @@
 git-selfie
 Take a selfie during your commit :)
-Hipstarizate your git
+It's working!
