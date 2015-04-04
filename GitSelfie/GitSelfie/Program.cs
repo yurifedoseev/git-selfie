@@ -9,27 +9,29 @@ namespace GitSelfie
     class Program
     {
         private static VideoCaptureDevice camera;
+        private static string commitMessage;
 
         static void Main(string[] args)
         {
+            commitMessage = args[0];
+
             var webcamColl = new FilterInfoCollection(FilterCategory.VideoInputDevice);
             camera = new VideoCaptureDevice(webcamColl[0].MonikerString);
             camera.NewFrame += Device_NewFrame;
+
+            Console.WriteLine("Taking git-selfie :)");
             camera.Start();
         }
 
         static void Device_NewFrame(object sender, NewFrameEventArgs e)
         {
             Bitmap bmp = (Bitmap)e.Frame.Clone();
-            DrawMessage(bmp, "DEV-9632 ФСС тест на соответствие xml xsd схеме");
+            DrawMessage(bmp, commitMessage);
             DrawCommitHash(bmp, "43b342dd04539329871");
-
             bmp.Save("C:\\Foo\\"+Guid.NewGuid()+"_bar.png");
-            Console.WriteLine("Snapshot Saved.");
+           
          
-            Console.WriteLine("Stopping ...");
             camera.SignalToStop();
-            Console.WriteLine("Stopped .");
         }
 
         private static void DrawMessage(Bitmap bmp, string message)
