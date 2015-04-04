@@ -10,10 +10,12 @@ namespace GitSelfie
     {
         private static VideoCaptureDevice camera;
         private static string commitMessage;
+        private static string commitHash;
 
         static void Main(string[] args)
         {
             commitMessage = args[0];
+            commitHash = args[1];
 
             var webcamColl = new FilterInfoCollection(FilterCategory.VideoInputDevice);
             camera = new VideoCaptureDevice(webcamColl[0].MonikerString);
@@ -27,7 +29,7 @@ namespace GitSelfie
         {
             Bitmap bmp = (Bitmap)e.Frame.Clone();
             DrawMessage(bmp, commitMessage);
-            DrawCommitHash(bmp, "43b342dd04539329871");
+            DrawCommitHash(bmp, commitHash);
             bmp.Save("C:\\Foo\\"+Guid.NewGuid()+"_bar.png");
            
          
