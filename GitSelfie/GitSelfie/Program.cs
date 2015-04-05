@@ -9,18 +9,11 @@ namespace GitSelfie
     class Program
     {
         private static VideoCaptureDevice camera;
-        private static string commitMessage;
-        private static string commitHash;
+        private static Commit commit;
 
         static void Main(string[] args)
         {
-            commitMessage = args[0];
-            commitHash = args[1];
-
-            if (commitHash.Length > 20)
-            {
-                commitHash = commitHash.Substring(0, 20);
-            }
+            commit = LoadCommitData(args);
 
             var webcamColl = new FilterInfoCollection(FilterCategory.VideoInputDevice);
             camera = new VideoCaptureDevice(webcamColl[0].MonikerString);
@@ -30,15 +23,41 @@ namespace GitSelfie
             camera.Start();
         }
 
+        private static Commit LoadCommitData(string[] args)
+        {
+            var data = new Commit
+            {
+                Message = args[0],
+                Sha1 = args[1]
+            };
+
+            if (data.Sha1.Length > 20)
+            {
+                data.Sha1 = data.Sha1.Substring(0, 20);
+            }
+
+            return data;
+        }
+
         static void Device_NewFrame(object sender, NewFrameEventArgs e)
         {
             Bitmap bmp = (Bitmap)e.Frame.Clone();
-            DrawMessage(bmp, commitMessage);
-            DrawCommitHash(bmp, commitHash);
-            bmp.Save("C:\\Foo\\"+Guid.NewGuid()+"_bar.png");
-           
-         
             camera.SignalToStop();
+
+            DrawCommitText(bmp);
+            SaveImage(bmp);
+        }
+
+        private static void SaveImage(Bitmap bmp)
+        {
+            string fileName = DateTime.Now.ToString("yyyy_MM_dd_hhmmss");
+            bmp.Save("C:\\Foo\\" + fileName + "_cam.png");
+        }
+
+        private static void DrawCommitText(Bitmap bmp)
+        {
+            DrawMessage(bmp, commit.Message);
+            DrawCommitHash(bmp, commit.Sha1);
         }
 
         private static void DrawMessage(Bitmap bmp, string message)
