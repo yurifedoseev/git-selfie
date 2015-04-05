@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Drawing.Text;
 using System.IO;
 using System.Text;
 using AForge.Video;
@@ -120,11 +121,19 @@ namespace GitSelfie
 
             int fontSize = 36;
 
+            // 'PrivateFontCollection' is in the 'System.Drawing.Text' namespace
+//            var foo = new PrivateFontCollection();
+//            // Provide the path to the font on the filesystem
+//            foo.AddFontFile("...");
+//
             //define a font to use.
-            Font f = new Font("Impact", fontSize, FontStyle.Regular, GraphicsUnit.Pixel);
+            Font f = new Font("Helvetica", fontSize, FontStyle.Regular, GraphicsUnit.Pixel);
 
             //pen for outline - set width parameter
-            Pen p = new Pen(ColorTranslator.FromHtml("#77090C"), 4);
+            //Pen p = new Pen(ColorTranslator.FromHtml("#8e8e8e"), 4);
+
+            Pen p = new Pen(ColorTranslator.FromHtml("#aeaeae"), 4);
+
             p.LineJoin = LineJoin.Round; //prevent "spikes" at the path
 
             //this makes the gradient repeat for each text line
@@ -134,7 +143,7 @@ namespace GitSelfie
 //                                                            ColorTranslator.FromHtml("#D00F14"),
 //                                                            90);
 
-            var b = new SolidBrush(Color.Snow);
+            var b = new SolidBrush(Color.White);
 
             //this will be the rectangle used to draw and auto-wrap the text.
             //basically = image size
