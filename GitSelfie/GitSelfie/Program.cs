@@ -127,12 +127,12 @@ namespace GitSelfie
 //            foo.AddFontFile("...");
 //
             //define a font to use.
-            Font f = new Font("Helvetica", fontSize, FontStyle.Regular, GraphicsUnit.Pixel);
+            Font f = new Font("Helvetica", fontSize, FontStyle.Bold, GraphicsUnit.Pixel);
 
             //pen for outline - set width parameter
             //Pen p = new Pen(ColorTranslator.FromHtml("#8e8e8e"), 4);
 
-            Pen p = new Pen(ColorTranslator.FromHtml("#aeaeae"), 4);
+            Pen p = new Pen(ColorTranslator.FromHtml("#77090C"), 4);
 
             p.LineJoin = LineJoin.Round; //prevent "spikes" at the path
 
@@ -143,7 +143,7 @@ namespace GitSelfie
 //                                                            ColorTranslator.FromHtml("#D00F14"),
 //                                                            90);
 
-            var b = new SolidBrush(Color.White);
+            var b = new SolidBrush(Color.Gainsboro);
 
             //this will be the rectangle used to draw and auto-wrap the text.
             //basically = image size
