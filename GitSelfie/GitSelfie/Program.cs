@@ -51,10 +51,15 @@ namespace GitSelfie
 
         private static void SaveImage(Bitmap bmp)
         {
+            string savePath = GetFileNameToSave();
+            bmp.Save(savePath);
+        }
+
+        private static string GetFileNameToSave()
+        {
             string folderPath = GetSaveFolderPath();
             string fileName = DateTime.Now.ToString("yyyy_MM_dd_hhmmss") + ".png";
-            string savePath = Path.Combine(folderPath, fileName);
-            bmp.Save(savePath);
+            return Path.Combine(folderPath, fileName);
         }
 
         private static string GetSaveFolderPath()
