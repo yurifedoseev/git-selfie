@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Drawing;
-using System.Drawing.Drawing2D;
 using System.IO;
 using System.Text;
 using AForge.Video;
@@ -34,7 +33,7 @@ namespace GitSelfie
                 {
                     Console.Out.WriteLine("Could not initialize git-selfie because .git folder was not found");
                 }
-                
+            
                 return;
             }
 
@@ -71,8 +70,8 @@ namespace GitSelfie
         {
             Bitmap bmp = (Bitmap)e.Frame.Clone();
             camera.SignalToStop();
-            
-            DrawCommitText(bmp);
+            CommitDrawing.Draw(bmp, commit);
+     
             SaveImage(bmp);
         }
 
@@ -88,7 +87,7 @@ namespace GitSelfie
             string fileName = DateTime.Now.ToString("yyyy_MM_dd_hhmmss") + ".png";
             return Path.Combine(folderPath, fileName);
         }
-
+        
         private static string GetSaveFolderPath()
         {
             string myPicturesPath = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
@@ -99,43 +98,6 @@ namespace GitSelfie
                 Directory.CreateDirectory(targetFolder);
             }
             return targetFolder;
-        }
-
-        private static void DrawCommitText(Bitmap bmp)
-        {
-            StringFormat sf = new StringFormat { Alignment = StringAlignment.Near, LineAlignment = StringAlignment.Far };
-            DrawText(bmp, commit.Message, 36, sf);
-
-            string dateFormat = DateTime.Now.ToString("dd.MM.yyyy hh:ss");
-            StringFormat dateDrawFormat = new StringFormat { Alignment = StringAlignment.Far, LineAlignment = StringAlignment.Near };
-            DrawText(bmp, dateFormat, 20, dateDrawFormat);
-        }
-
-        private static void DrawText(Bitmap bmp, string message, int fontSize, StringFormat sf)
-        {
-            Rectangle drawRectangle = new Rectangle(0, 10, bmp.Width, bmp.Height);
-            Graphics g = Graphics.FromImage(bmp);
-            Font f = new Font("Helvetica", fontSize, FontStyle.Bold, GraphicsUnit.Pixel);
-            Pen p = new Pen(ColorTranslator.FromHtml("#77090C"), 4) {LineJoin = LineJoin.Round};
-            var b = new SolidBrush(Color.Gainsboro);
-
-            GraphicsPath gp = new GraphicsPath();
-
-            gp.AddString(message, f.FontFamily, (int) f.Style, fontSize, drawRectangle, sf);
-
-            g.SmoothingMode = SmoothingMode.AntiAlias;
-            g.PixelOffsetMode = PixelOffsetMode.HighQuality;
-
-            g.DrawPath(p, gp);
-            g.FillPath(b, gp);
-
-            //cleanup
-            gp.Dispose();
-            b.Dispose();
-            b.Dispose();
-            f.Dispose();
-            sf.Dispose();
-            g.Dispose();
         }
     }
 }
