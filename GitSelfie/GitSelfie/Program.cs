@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.IO;
 using AForge.Video;
 using AForge.Video.DirectShow;
 
@@ -50,8 +51,22 @@ namespace GitSelfie
 
         private static void SaveImage(Bitmap bmp)
         {
-            string fileName = DateTime.Now.ToString("yyyy_MM_dd_hhmmss");
-            bmp.Save("C:\\Foo\\" + fileName + "_cam.png");
+            string folderPath = GetSaveFolderPath();
+            string fileName = DateTime.Now.ToString("yyyy_MM_dd_hhmmss") + ".png";
+            string savePath = Path.Combine(folderPath, fileName);
+            bmp.Save(savePath);
+        }
+
+        private static string GetSaveFolderPath()
+        {
+            string myPicturesPath = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
+            const string folderName = "git-selfie";
+            string targetFolder = Path.Combine(myPicturesPath, folderName);
+            if (Directory.Exists(targetFolder) == false)
+            {
+                Directory.CreateDirectory(targetFolder);
+            }
+            return targetFolder;
         }
 
         private static void DrawCommitText(Bitmap bmp)
