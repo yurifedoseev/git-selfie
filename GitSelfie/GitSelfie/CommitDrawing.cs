@@ -39,13 +39,21 @@ namespace GitSelfie
 
         private void DrawCommitTimestamp()
         {
-            string dateFormat = DateTime.Now.ToString("dd.MM.yyyy hh:ss");
-            var settings = new TextSettings
+            string dateText = DateTime.Now.ToString("dd.MM.yyyy hh:ss");
+
+            using (var settings = GetSettingsForCommitTimeStamp())
+            {
+                DrawText(dateText, settings);
+            }
+        }
+
+        private static TextSettings GetSettingsForCommitTimeStamp()
+        {
+            return new TextSettings
             {
                 Font = new Font("Helvetica", 20, FontStyle.Bold, GraphicsUnit.Pixel),
-                StringFormat = new StringFormat { Alignment = StringAlignment.Far, LineAlignment = StringAlignment.Near }
+                StringFormat = new StringFormat {Alignment = StringAlignment.Far, LineAlignment = StringAlignment.Near}
             };
-            DrawText(dateFormat, settings);
         }
 
         private void DrawText(string message, TextSettings textSettings)
@@ -70,8 +78,6 @@ namespace GitSelfie
             gp.Dispose();
             b.Dispose();
             b.Dispose();
-            f.Dispose();
-            textSettings.StringFormat.Dispose();
             g.Dispose();
         } 
     }
