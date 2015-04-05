@@ -103,27 +103,25 @@ namespace GitSelfie
 
         private static void DrawCommitText(Bitmap bmp)
         {
-            DrawMessage(bmp, commit.Message);
+            StringFormat sf = new StringFormat { Alignment = StringAlignment.Near, LineAlignment = StringAlignment.Far };
+            DrawText(bmp, commit.Message, 36, sf);
 
             string dateFormat = DateTime.Now.ToString("dd.MM.yyyy hh:ss");
-            DrawDate(bmp, dateFormat);
+            StringFormat dateDrawFormat = new StringFormat { Alignment = StringAlignment.Far, LineAlignment = StringAlignment.Near };
+            DrawText(bmp, dateFormat, 20, dateDrawFormat);
         }
 
-        private static void DrawMessage(Bitmap bmp, string message)
+        private static void DrawText(Bitmap bmp, string message, int fontSize, StringFormat sf)
         {
-            const int fontSize = 36;
-
+            Rectangle drawRectangle = new Rectangle(0, 10, bmp.Width, bmp.Height);
             Graphics g = Graphics.FromImage(bmp);
-            StringFormat sf = new StringFormat {Alignment = StringAlignment.Near, LineAlignment = StringAlignment.Far};
-            
             Font f = new Font("Helvetica", fontSize, FontStyle.Bold, GraphicsUnit.Pixel);
             Pen p = new Pen(ColorTranslator.FromHtml("#77090C"), 4) {LineJoin = LineJoin.Round};
             var b = new SolidBrush(Color.Gainsboro);
 
-            Rectangle r = new Rectangle(10, 0, bmp.Width-10, bmp.Height);
             GraphicsPath gp = new GraphicsPath();
 
-            gp.AddString(message, f.FontFamily, (int) f.Style, fontSize, r, sf);
+            gp.AddString(message, f.FontFamily, (int) f.Style, fontSize, drawRectangle, sf);
 
             g.SmoothingMode = SmoothingMode.AntiAlias;
             g.PixelOffsetMode = PixelOffsetMode.HighQuality;
@@ -132,33 +130,6 @@ namespace GitSelfie
             g.FillPath(b, gp);
 
             //cleanup
-            gp.Dispose();
-            b.Dispose();
-            b.Dispose();
-            f.Dispose();
-            sf.Dispose();
-            g.Dispose();
-        }
-
-
-        private static void DrawDate(Bitmap bmp, string message)
-        {
-            int fontSize = 20;
-            
-            Graphics g = Graphics.FromImage(bmp);
-            StringFormat sf = new StringFormat {Alignment = StringAlignment.Far, LineAlignment = StringAlignment.Near};
-            Font f = new Font("Helvetica", fontSize, FontStyle.Bold, GraphicsUnit.Pixel);
-            Pen p = new Pen(ColorTranslator.FromHtml("#77090C"), 4) {LineJoin = LineJoin.Round};
-            var b = new SolidBrush(Color.Gainsboro);
-            Rectangle r = new Rectangle(0, 10, bmp.Width, bmp.Height);
-            GraphicsPath gp = new GraphicsPath();
-            gp.AddString(message, f.FontFamily, (int)f.Style, fontSize, r, sf);
-            g.SmoothingMode = SmoothingMode.AntiAlias;
-            g.PixelOffsetMode = PixelOffsetMode.HighQuality;
-
-            g.DrawPath(p, gp);
-            g.FillPath(b, gp);
-
             gp.Dispose();
             b.Dispose();
             b.Dispose();
