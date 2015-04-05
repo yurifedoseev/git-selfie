@@ -29,10 +29,10 @@ namespace GitSelfie
 
         private void DrawCommitMessage()
         {
-            var textSettings = new TextSettings
+            var textSettings = new TextOptions
             {
                 Font = new Font("Helvetica", 36, FontStyle.Bold, GraphicsUnit.Pixel),
-                StringFormat = new StringFormat { Alignment = StringAlignment.Near, LineAlignment = StringAlignment.Far }
+                StringFormat = new StringFormat {Alignment = StringAlignment.Near, LineAlignment = StringAlignment.Far}
             };
             DrawText(commit.Message, textSettings);
             textSettings.Dispose();
@@ -40,7 +40,7 @@ namespace GitSelfie
 
         private void DrawCommitTimestamp()
         {
-            var settings = new TextSettings
+            var settings = new TextOptions
             {
                 Font = new Font("Helvetica", 20, FontStyle.Bold, GraphicsUnit.Pixel),
                 StringFormat = new StringFormat {Alignment = StringAlignment.Far, LineAlignment = StringAlignment.Near}
@@ -49,29 +49,44 @@ namespace GitSelfie
             settings.Dispose();
         }
 
-        private void DrawText(string message, TextSettings textSettings)
+        private void DrawText(string message, TextOptions options)
         {
-            Rectangle drawRectangle = new Rectangle(10, 10, bmp.Width-10, bmp.Height);
-            Graphics g = Graphics.FromImage(bmp);
-            Font f = textSettings.Font;
-            Pen p = new Pen(ColorTranslator.FromHtml("#77090C"), 4) { LineJoin = LineJoin.Round };
-            var b = new SolidBrush(Color.Gainsboro);
+            using (var gp = InitGraphicsPath(message, options))
+            {
+                DrawOnGraphicsPath(gp);
+            }
+        }
 
+        private GraphicsPath InitGraphicsPath(string message, TextOptions options)
+        {
             GraphicsPath gp = new GraphicsPath();
+            Rectangle r = new Rectangle(10, 10, bmp.Width - 10, bmp.Height);
+            Font f = options.Font;
+            gp.AddString(message, f.FontFamily, (int)f.Style, f.Size, r, options.StringFormat);
+            return gp;
+        }
 
-            gp.AddString(message, f.FontFamily, (int)f.Style, f.Size, drawRectangle, textSettings.StringFormat);
+        private void DrawOnGraphicsPath(GraphicsPath gp)
+        {
+            Graphics graphics = CreateGraphics();
 
-            g.SmoothingMode = SmoothingMode.AntiAlias;
-            g.PixelOffsetMode = PixelOffsetMode.HighQuality;
+            var pen = new Pen(ColorTranslator.FromHtml("#77090C"), 4) {LineJoin = LineJoin.Round};
+            var brush = new SolidBrush(Color.Gainsboro);
 
-            g.DrawPath(p, gp);
-            g.FillPath(b, gp);
+            graphics.DrawPath(pen, gp);
+            graphics.FillPath(brush, gp);
+            
+            pen.Dispose();
+            brush.Dispose();
+            graphics.Dispose();
+        }
 
-            //cleanup
-            gp.Dispose();
-            b.Dispose();
-            b.Dispose();
-            g.Dispose();
-        } 
+        private Graphics CreateGraphics()
+        {
+            Graphics graphics = Graphics.FromImage(bmp);
+            graphics.SmoothingMode = SmoothingMode.AntiAlias;
+            graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
+            return graphics;
+        }
     }
 }
