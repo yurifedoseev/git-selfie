@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Drawing;
 using System.IO;
-using System.Text;
 using AForge.Video;
 using AForge.Video.DirectShow;
 
@@ -16,24 +15,7 @@ namespace GitSelfie
         {
             if (args.Length == 1 && args[0].ToLower() == "init")
             {
-                Console.Out.WriteLine("Initialize git-selfie for current repository");
-                
-                var sb = new StringBuilder();
-                sb.AppendLine(@"#!/bin/sh");
-                sb.AppendLine("MESSAGE=$(git log -1 HEAD --pretty=format:%s)");
-                sb.AppendLine("SHA=$(git rev-list -1 HEAD)");
-                sb.AppendLine("exec \"gitselfie\" \"$MESSAGE\" \"$SHA\"");
-
-                if (Directory.Exists(".git"))
-                {
-                    File.WriteAllText(@".git\hooks\post-commit", sb.ToString());
-                    Console.Out.WriteLine("git-selfie initialized");
-                }
-                else
-                {
-                    Console.Out.WriteLine("Could not initialize git-selfie because .git folder was not found");
-                }
-            
+                PostCommitHook.Initialize();            
                 return;
             }
 
