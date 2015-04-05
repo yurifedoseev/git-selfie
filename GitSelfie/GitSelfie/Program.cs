@@ -104,7 +104,9 @@ namespace GitSelfie
         private static void DrawCommitText(Bitmap bmp)
         {
             DrawMessage(bmp, commit.Message);
-            DrawCommitHash(bmp, commit.Sha1);
+
+            string dateFormat = DateTime.Now.ToString("dd.MM.yyyy hh:ss");
+            DrawDate(bmp, dateFormat);
         }
 
         private static void DrawMessage(Bitmap bmp, string message)
@@ -119,7 +121,7 @@ namespace GitSelfie
             int fontSize = 36;
 
             //define a font to use.
-            Font f = new Font("Impact", fontSize, FontStyle.Bold, GraphicsUnit.Pixel);
+            Font f = new Font("Impact", fontSize, FontStyle.Regular, GraphicsUnit.Pixel);
 
             //pen for outline - set width parameter
             Pen p = new Pen(ColorTranslator.FromHtml("#77090C"), 4);
@@ -136,7 +138,7 @@ namespace GitSelfie
 
             //this will be the rectangle used to draw and auto-wrap the text.
             //basically = image size
-            Rectangle r = new Rectangle(10, 0, bmp.Width, bmp.Height);
+            Rectangle r = new Rectangle(10, 0, bmp.Width-10, bmp.Height);
 
             GraphicsPath gp = new GraphicsPath();
 
@@ -163,7 +165,7 @@ namespace GitSelfie
         }
 
 
-        private static void DrawCommitHash(Bitmap bmp, string message)
+        private static void DrawDate(Bitmap bmp, string message)
         {
             Graphics g = Graphics.FromImage(bmp);
 
