@@ -8,7 +8,7 @@ namespace GitSelfie
     {
         public void Execute()
         {
-            string[] directories = Directory.GetDirectories(Environment.CurrentDirectory, ".git", SearchOption.AllDirectories);
+            string[] directories = DirectoryFinder.FindGitDerictories();
             
             foreach (string directory in directories)
             {

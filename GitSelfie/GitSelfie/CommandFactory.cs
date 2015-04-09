@@ -9,6 +9,11 @@
                 return new InitCommand();
             }
 
+            if (args.Length == 1 && args[0].ToLower() == "rm")
+            {
+                return new RemoveCommand();
+            }
+
             if (args.Length >= 2)
             {
                 var commit = LoadCommitData(args);

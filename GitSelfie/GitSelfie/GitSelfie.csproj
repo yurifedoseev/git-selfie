@@ -53,7 +53,9 @@
   <ItemGroup>
     <Compile Include="CommandFactory.cs" />
     <Compile Include="Commit.cs" />
+    <Compile Include="DirectoryFinder.cs" />
     <Compile Include="ICommand.cs" />
+    <Compile Include="RemoveCommand.cs" />
     <Compile Include="InitCommand.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
