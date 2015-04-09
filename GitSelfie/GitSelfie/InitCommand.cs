@@ -8,21 +8,20 @@ namespace GitSelfie
     {
         public void Execute()
         {
-            Console.Out.WriteLine("Initialize git-selfie for current repository");
-
-            if (Directory.Exists(".git"))
+            string[] directories = Directory.GetDirectories(Environment.CurrentDirectory, ".git", SearchOption.AllDirectories);
+            
+            foreach (string directory in directories)
             {
-                WritePostCommitHook(@".git\hooks\post-commit");
-                Console.Out.WriteLine("git-selfie initialized");
-            }
-            else
-            {
-                Console.Out.WriteLine("Could not initialize git-selfie because .git folder was not found");
+                WritePostCommitHook(directory);
+                Console.Out.WriteLine("git-selfie initialized in " + directory);
             }
         }
 
-        private void WritePostCommitHook(string path)
+        private void WritePostCommitHook(string directoryPath)
         {
+            const string hookPath = @"hooks\post-commit";
+            var path = Path.Combine(directoryPath, hookPath);
+            
             var sb = new StringBuilder();
             sb.AppendLine(@"#!/bin/sh");
             sb.AppendLine("MESSAGE=$(git log -1 HEAD --pretty=format:%s)");
