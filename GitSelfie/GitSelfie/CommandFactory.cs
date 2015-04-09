@@ -14,6 +14,11 @@
                 return new RemoveCommand();
             }
 
+            if (args.Length == 1 && args[0].ToLower() == "/h")
+            {
+                return new HelpCommand();
+            }
+
             if (args.Length >= 2)
             {
                 var commit = LoadCommitData(args);
