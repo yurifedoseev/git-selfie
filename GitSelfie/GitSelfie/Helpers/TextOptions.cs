@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Drawing;
 
-namespace GitSelfie
+namespace GitSelfie.Helpers
 {
     public class TextOptions : IDisposable
     {
@@ -11,15 +11,9 @@ namespace GitSelfie
 
         public void Dispose()
         {
-            if (StringFormat != null)
-            {
-                StringFormat.Dispose();
-            }
+            StringFormat?.Dispose();
 
-            if (Font != null)
-            {
-                Font.Dispose();
-            }
+            Font?.Dispose();
         }
     }
 }

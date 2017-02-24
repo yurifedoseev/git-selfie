@@ -1,10 +1,13 @@
-﻿using System;
+using System;
 using System.Drawing;
 using System.IO;
 using AForge.Video;
 using AForge.Video.DirectShow;
+using GitSelfie.Domain.Interfaces;
+using GitSelfie.Domain.Models;
+using GitSelfie.Helpers;
 
-namespace GitSelfie
+namespace GitSelfie.Commands
 {
     public class SelfieCommand : ICommand
     {

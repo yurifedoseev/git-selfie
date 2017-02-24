@@ -1,6 +1,4 @@
-﻿using System.ComponentModel;
-
-namespace GitSelfie
+﻿namespace GitSelfie.Domain.Models
 {
     public class Commit
     {

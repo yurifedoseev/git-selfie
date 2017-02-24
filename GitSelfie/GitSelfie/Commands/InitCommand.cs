@@ -1,8 +1,10 @@
 ﻿using System;
 using System.IO;
 using System.Text;
+using GitSelfie.Domain.Interfaces;
+using GitSelfie.Helpers;
 
-namespace GitSelfie
+namespace GitSelfie.Commands
 {
     public class InitCommand : ICommand
     {

@@ -1,20 +1,24 @@
-﻿namespace GitSelfie
+﻿using System.Globalization;
+using GitSelfie.Domain.Interfaces;
+using GitSelfie.Domain.Models;
+
+namespace GitSelfie.Commands
 {
-    public class CommandFactory
+    public static class CommandFactory
     {
         public static ICommand Create(string[] args)
         {
-            if (args.Length == 1 && args[0].ToLower() == "init")
+            if (args.Length == 1 && args[0].ToLower(CultureInfo.CurrentCulture) == "init")
             {
                 return new InitCommand();
             }
 
-            if (args.Length == 1 && args[0].ToLower() == "rm")
+            if (args.Length == 1 && args[0].ToLower(CultureInfo.CurrentCulture) == "rm")
             {
                 return new RemoveCommand();
             }
 
-            if (args.Length == 1 && args[0].ToLower() == "/h")
+            if (args.Length == 1 && args[0].ToLower(CultureInfo.CurrentCulture) == "/h")
             {
                 return new HelpCommand();
             }
