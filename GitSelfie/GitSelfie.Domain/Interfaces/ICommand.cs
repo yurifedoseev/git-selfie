@@ -1,4 +1,4 @@
-﻿namespace GitSelfie
+﻿namespace GitSelfie.Domain.Interfaces
 {
     public interface ICommand
     {

@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using GitSelfie.Domain.Models;
 
-namespace GitSelfie
+namespace GitSelfie.Helpers
 {
     public class CommitDrawing
     {

@@ -1,6 +1,7 @@
 ﻿using System;
+using GitSelfie.Domain.Interfaces;
 
-namespace GitSelfie
+namespace GitSelfie.Commands
 {
     public class HelpCommand : ICommand
     {

@@ -1,12 +1,13 @@
-﻿namespace GitSelfie
+﻿using GitSelfie.Commands;
+
+namespace GitSelfie
 {
-    internal class Program
+    internal static class Program
     {
         private static void Main(string[] args)
         {
             var command = CommandFactory.Create(args);
-            if (command != null)
-                command.Execute();
+            command?.Execute();
         }
     }
 }

@@ -1,9 +1,9 @@
 using System;
 using System.IO;
 
-namespace GitSelfie
+namespace GitSelfie.Helpers
 {
-    public class DirectoryFinder
+    public static class DirectoryFinder
     {
         public static string[] FindGitDerictories()
         {

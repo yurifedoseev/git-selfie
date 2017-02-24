@@ -1,7 +1,9 @@
 ﻿using System;
 using System.IO;
+using GitSelfie.Domain.Interfaces;
+using GitSelfie.Helpers;
 
-namespace GitSelfie
+namespace GitSelfie.Commands
 {
     public class RemoveCommand : ICommand
     {
